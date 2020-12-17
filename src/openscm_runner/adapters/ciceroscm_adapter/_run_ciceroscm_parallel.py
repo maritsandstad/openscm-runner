@@ -42,21 +42,18 @@ def run_ciceroscm_parallel(scenarios, cfgs, output_vars):
         :obj:`ScmRun` instance with all results.
     """
     LOGGER.info("Entered _parallel_ciceroscm")
-    print(config.get("CICEROSCM_WORKER_NUMBER", os.cpu_count()))
     runs = [
         {
             "cfgs": cfgs,
             "output_variables": output_vars,
-            "scenariodata": smdf,  # IamDataFrame(smdf),
+            "scenariodata": smdf,
         }
         for (scen, model), smdf in scenarios.timeseries().groupby(["scenario", "model"])
     ]
 
     try:
         pool = ProcessPoolExecutor(
-            max_workers=4,  # int(config.get("CICEROSCM_WORKER_NUMBER", os.cpu_count())),
-            # initializer=_init_ciceroscm_worker,
-            # initargs=(shared_dict,),
+            max_workers=int(config.get("CICEROSCM_WORKER_NUMBER", os.cpu_count())),
         )
 
         result = _parallel_process(

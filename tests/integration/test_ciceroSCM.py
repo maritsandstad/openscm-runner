@@ -28,6 +28,10 @@ def _check_res(exp, check_val, raise_error, rtol=RTOL):
             raise
 
 
+def test_get_version(ciceroscm_is_available):
+    assert CICEROSCM.get_version() == "v2019vCH4"
+
+
 def test_ciceroscm_run(test_scenarios):
     debug_run = False
     adapter = CICEROSCM()

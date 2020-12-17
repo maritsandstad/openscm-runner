@@ -10,7 +10,6 @@ from distutils import dir_util
 import pandas as pd
 from scmdata import ScmRun, run_append
 
-# from disutils import dir_util
 from .make_scenario_files import SCENARIOFILEWRITER
 from .read_results import CSCMREADER
 from .write_parameter_files import PARAMETERFILEWRITER

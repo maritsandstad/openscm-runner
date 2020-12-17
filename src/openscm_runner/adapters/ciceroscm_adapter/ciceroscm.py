@@ -62,6 +62,8 @@ class CICEROSCM(_Adapter):  # pylint: disable=too-few-public-methods
         try:
             check_output(exec_call)
         except OSError as orig_exc:
-            raise OSError("Cicero-SCM is not available on your operating system") from orig_exc
+            raise OSError(
+                "Cicero-SCM is not available on your operating system"
+            ) from orig_exc
 
         return "v2019vCH4"

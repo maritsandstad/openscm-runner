@@ -20,7 +20,6 @@ class TestCICEROSCMAdapter(_AdapterTester):
     def test_run(self, test_scenarios, ciceroscm_is_available):
         debug_run = False
 
-        adapter = CICEROSCM()
         res = run(
             scenarios=test_scenarios.filter(scenario=["ssp126", "ssp245", "ssp370"]),
             climate_models_cfgs={
@@ -259,7 +258,9 @@ class TestCICEROSCMAdapter(_AdapterTester):
         npt.assert_string_equal(
             make_scenario_files.unit_name_converter("Mt C/yr"), "Tg C/yr"
         )
-        npt.assert_string_equal(make_scenario_files.unit_name_converter("kt N2O"), "Gg N2O")
+        npt.assert_string_equal(
+            make_scenario_files.unit_name_converter("kt N2O"), "Gg N2O"
+        )
         npt.assert_string_equal(
             make_scenario_files.unit_name_converter("Gt tests"), "Pg tests"
         )
@@ -285,7 +286,6 @@ class TestCICEROSCMAdapter(_AdapterTester):
             make_scenario_files.unit_conv_factor("Tg_S", "Tg SO2/yr", "SO2"),
             False,
         )
-
 
     @pytest.mark.parametrize(
         "input,exp",

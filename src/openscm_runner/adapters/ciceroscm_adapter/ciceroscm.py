@@ -4,7 +4,6 @@ CICEROSCM adapter
 import logging
 import os.path
 from subprocess import check_output  # nosec
-from sys import platform
 
 from ..base import _Adapter
 from ._run_ciceroscm_parallel import run_ciceroscm_parallel
@@ -53,10 +52,7 @@ class CICEROSCM(_Adapter):  # pylint: disable=too-few-public-methods
             The CICEROSCM version id
         """
         exec_call = os.path.join(
-            os.path.dirname(__file__),
-            "utils_templates",
-            "run_dir",
-            "scm_vCH4fb"
+            os.path.dirname(__file__), "utils_templates", "run_dir", "scm_vCH4fb"
         )
         try:
             check_output(exec_call)

@@ -43,11 +43,7 @@ def run_ciceroscm_parallel(scenarios, cfgs, output_vars):
     """
     LOGGER.info("Entered _parallel_ciceroscm")
     runs = [
-        {
-            "cfgs": cfgs,
-            "output_variables": output_vars,
-            "scenariodata": smdf,
-        }
+        {"cfgs": cfgs, "output_variables": output_vars, "scenariodata": smdf}
         for (scen, model), smdf in scenarios.timeseries().groupby(["scenario", "model"])
     ]
 

@@ -2,6 +2,7 @@ from concurrent.futures import ProcessPoolExecutor
 
 import numpy as np
 import numpy.testing as npt
+
 from openscm_runner.adapters.utils import _parallel_process
 
 

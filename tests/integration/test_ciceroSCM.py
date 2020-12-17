@@ -56,8 +56,8 @@ class TestCICEROSCMAdapter(_AdapterTester):
                 ]
             },
             output_variables=(
-                "Surface Temperature",
-                "Surface Temperature (GMST)",
+                "Surface Air Temperature Change",
+                "Surface Air Ocean Blended Temperature Change",
                 "Heat Content|Ocean",
                 "Effective Radiative Forcing",
                 "Effective Radiative Forcing|Anthropogenic",
@@ -76,8 +76,8 @@ class TestCICEROSCMAdapter(_AdapterTester):
 
         assert set(res.get_unique_meta("variable")) == set(
             [
-                "Surface Temperature",
-                "Surface Temperature (GMST)",
+                "Surface Air Temperature Change",
+                "Surface Air Ocean Blended Temperature Change",
                 "Heat Content|Ocean",
                 "Effective Radiative Forcing",
                 "Effective Radiative Forcing|Anthropogenic",

@@ -67,7 +67,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
                 "Atmospheric Concentrations|CO2",
                 "Emissions|CO2",
             ),
-            output_config=None,
+            out_config=None,
         )
         assert isinstance(res, ScmRun)
         assert res["run_id"].min() == 1
@@ -228,11 +228,11 @@ class TestCICEROSCMAdapter(_AdapterTester):
         if missing_vars:
             raise AssertionError(missing_vars)
 
-    def test_w_output_config(self, test_scenarios, ciceroscm_is_available):
+    def test_w_out_config(self, test_scenarios, ciceroscm_is_available):
         with pytest.raises(NotImplementedError):
             run(
                 scenarios=test_scenarios.filter(scenario=["ssp126"]),
-                cfgs={
+                climate_models_cfgs={
                     "CiceroSCM": [
                         {
                             "Index": 30040,
@@ -251,7 +251,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
                     ]
                 },
                 output_variables=("Surface Temperature",),
-                output_config="With ECS",
+                out_config={"CiceroSCM": ("With ECS",)},
             )
 
     def test_make_scenario_files(self, test_scenarios):

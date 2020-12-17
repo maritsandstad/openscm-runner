@@ -64,8 +64,10 @@ def run_ciceroscm_parallel(scenarios, cfgs, output_vars):
             configuration=runs,
             pool=pool,
             config_are_kwargs=True,
-            front_serial=2,
-            front_parallel=2,
+            # no front runs as these defeat the purpose with Cicero-SCM (because
+            # it is only parallel on scenarios, not configs)
+            front_serial=0,
+            front_parallel=0,
         )
 
         LOGGER.info("Appending Cicero-SCM results into a single ScmRun")

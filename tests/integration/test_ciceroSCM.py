@@ -105,7 +105,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
         self._check_res(
             1.50177,
             res.filter(
-                variable="Surface Temperature",
+                variable="Surface Air Temperature Change",
                 region="World",
                 year=2100,
                 scenario="ssp126",
@@ -116,7 +116,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
         self._check_res(
             3.35742,
             res.filter(
-                variable="Surface Temperature (GMST)",
+                variable="Surface Air Ocean Blended Temperature Change",
                 region="World",
                 year=2100,
                 scenario="ssp370",
@@ -157,7 +157,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
         self._check_res(
             1.1427785,
             quantiles.filter(
-                variable="Surface Temperature (GMST)",
+                variable="Surface Air Ocean Blended Temperature Change",
                 region="World",
                 year=2100,
                 scenario="ssp126",
@@ -169,7 +169,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
         self._check_res(
             1.4757515,
             quantiles.filter(
-                variable="Surface Temperature (GMST)",
+                variable="Surface Air Ocean Blended Temperature Change",
                 region="World",
                 year=2100,
                 scenario="ssp126",
@@ -181,7 +181,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
         self._check_res(
             2.7883605,
             quantiles.filter(
-                variable="Surface Temperature (GMST)",
+                variable="Surface Air Ocean Blended Temperature Change",
                 region="World",
                 year=2100,
                 scenario="ssp370",
@@ -193,7 +193,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
         self._check_res(
             3.3274695,
             quantiles.filter(
-                variable="Surface Temperature (GMST)",
+                variable="Surface Air Ocean Blended Temperature Change",
                 region="World",
                 year=2100,
                 scenario="ssp370",
@@ -251,7 +251,7 @@ class TestCICEROSCMAdapter(_AdapterTester):
                         },
                     ]
                 },
-                output_variables=("Surface Temperature",),
+                output_variables=("Surface Air Temperature Change",),
                 out_config={"CiceroSCM": ("With ECS",)},
             )
 

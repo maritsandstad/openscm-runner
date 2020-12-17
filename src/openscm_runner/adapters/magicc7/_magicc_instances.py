@@ -97,7 +97,6 @@ class _MagiccInstances:
             LOGGER.info("Creating new magicc instance: %s - %s", key, magicc.root_dir)
             magicc.create_copy()
 
-
             self.instances[key] = magicc
             if init_callback_kwargs is None:
                 init_callback_kwargs = {}

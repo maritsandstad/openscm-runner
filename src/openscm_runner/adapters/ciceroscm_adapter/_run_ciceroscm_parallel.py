@@ -55,9 +55,7 @@ def run_ciceroscm_parallel(scenarios, cfgs, output_vars):
         max_workers = int(config.get("CICEROSCM_WORKER_NUMBER", os.cpu_count()))
         LOGGER.info("Running in parallel with up to {} workers".format(max_workers))
 
-        pool = ProcessPoolExecutor(
-            max_workers=max_workers,
-        )
+        pool = ProcessPoolExecutor(max_workers=max_workers,)
 
         result = _parallel_process(
             func=_execute_run,

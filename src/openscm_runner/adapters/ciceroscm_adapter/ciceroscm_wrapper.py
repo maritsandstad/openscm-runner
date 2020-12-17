@@ -59,7 +59,7 @@ class CiceroSCMWrapper:  # pylint: disable=too-few-public-methods
         and make an ScmRun with results
         """
         runs = []
-        for pamset in cfgs:
+        for i, pamset in enumerate(cfgs):
             self.pamfilewriter.write_parameterfile(
                 pamset, os.path.join(self.rundir, self.scen)
             )
@@ -90,7 +90,7 @@ class CiceroSCMWrapper:  # pylint: disable=too-few-public-methods
                         columns={
                             "climate_model": "Cicero-SCM",
                             "model": self.model,
-                            "run_id": pamset["Index"],
+                            "run_id": pamset.get("Index", i),
                             "scenario": self.scen,
                             "region": ["World"],
                             "variable": [variable],

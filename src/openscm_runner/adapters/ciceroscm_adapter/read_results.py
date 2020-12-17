@@ -86,7 +86,7 @@ class CSCMREADER:
             "Effective Radiative Forcing|Aerosols|Direct Effect": "Aerosols|Direct Effect",
             "Effective Radiative Forcing|Aerosols|Direct Effect|BC": "BC",
             "Effective Radiative Forcing|Aerosols|Direct Effect|OC": "OC",
-            "Effective Radiative Forcing|Aerosols|Direct Effect|Sulfur": "SO2",
+            "Effective Radiative Forcing|Aerosols|Direct Effect|SOx": "SO2",
             "Effective Radiative Forcing|Aerosols|Indirect Effect": "SO4_IND",
             "Effective Radiative Forcing|Greenhouse Gases": "GHG",
             "Effective Radiative Forcing|F-Gases": "Fgas",

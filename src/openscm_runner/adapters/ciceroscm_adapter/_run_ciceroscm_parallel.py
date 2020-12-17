@@ -16,8 +16,12 @@ LOGGER = logging.getLogger(__name__)
 
 def _execute_run(cfgs, output_variables, scenariodata):
     cscm = CiceroSCMWrapper(scenariodata)
+    try:
+        out = cscm.run_over_cfgs(cfgs, output_variables)
+    finally:
+        cscm.cleanup_tempdirs()
 
-    return cscm.run_over_cfgs(cfgs, output_variables)
+    return out
 
 
 def run_ciceroscm_parallel(scenarios, cfgs, output_vars):
@@ -48,8 +52,11 @@ def run_ciceroscm_parallel(scenarios, cfgs, output_vars):
     ]
 
     try:
+        max_workers = int(config.get("CICEROSCM_WORKER_NUMBER", os.cpu_count()))
+        LOGGER.info("Running in parallel with up to {} workers".format(max_workers))
+
         pool = ProcessPoolExecutor(
-            max_workers=int(config.get("CICEROSCM_WORKER_NUMBER", os.cpu_count())),
+            max_workers=max_workers,
         )
 
         result = _parallel_process(

@@ -145,7 +145,7 @@ def run_magicc_parallel(cfgs, output_vars, output_config):
 
     try:
         max_workers = int(config.get("MAGICC_WORKER_NUMBER", os.cpu_count()))
-        LOGGER.info("Running in parallel with up to {} workers".format(max_workers))
+        LOGGER.info("Running in parallel with up to %d workers", max_workers)
 
         pool = ProcessPoolExecutor(
             max_workers=max_workers,

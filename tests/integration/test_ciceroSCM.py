@@ -1,7 +1,5 @@
 import os
-from concurrent.futures import ProcessPoolExecutor
 
-import numpy as np
 import numpy.testing as npt
 import pytest
 from scmdata import ScmRun
@@ -11,7 +9,6 @@ from openscm_runner.adapters.ciceroscm_adapter import (
     make_scenario_files,
     write_parameter_files,
 )
-from openscm_runner.adapters.utils import _parallel_process
 from openscm_runner.utils import calculate_quantiles
 
 RTOL = 1e-5
@@ -32,7 +29,7 @@ def test_get_version(ciceroscm_is_available):
     assert CICEROSCM.get_version() == "v2019vCH4"
 
 
-def test_ciceroscm_run(test_scenarios):
+def test_ciceroscm_run(test_scenarios, ciceroscm_is_available):
     debug_run = False
     adapter = CICEROSCM()
     res = adapter._run(
@@ -227,7 +224,7 @@ def test_ciceroscm_run(test_scenarios):
         assert False, "Turn off debug"
 
 
-def test_w_output_config(test_scenarios):
+def test_w_output_config(test_scenarios, ciceroscm_is_available):
     adapter = CICEROSCM()
     with pytest.raises(NotImplementedError):
         adapter._run(
@@ -298,31 +295,3 @@ def test_make_scenario_files(test_scenarios):
 )
 def test_write_parameter_files(input, exp):
     assert write_parameter_files.splitall(input) == exp
-
-
-def _self_function(x):
-    return x
-
-
-def test_parallel():
-    runs = [{"x": x} for x in range(10)]
-
-    result = _parallel_process._parallel_process(
-        func=_self_function,
-        configuration=runs,
-        pool=None,
-        config_are_kwargs=True,
-        front_serial=2,
-        front_parallel=2,
-    )
-    npt.assert_array_equal(np.sort(result), range(10))
-    runs2 = [x for x in range(10)]
-    result2 = _parallel_process._parallel_process(
-        func=_self_function,
-        configuration=runs2,
-        pool=ProcessPoolExecutor(max_workers=2),
-        config_are_kwargs=False,
-        front_serial=2,
-        front_parallel=2,
-    )
-    npt.assert_array_equal(np.sort(result2), range(10))

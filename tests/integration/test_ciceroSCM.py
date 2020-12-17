@@ -212,8 +212,9 @@ class TestCICEROSCMAdapter(_AdapterTester):
             "Effective Radiative Forcing|Aerosols|Direct Effect|OC|MAGICC Fossil and Industrial",
             "Effective Radiative Forcing|Aerosols|Direct Effect|SOx|MAGICC AFOLU",
             "Effective Radiative Forcing|Aerosols|Direct Effect|SOx|MAGICC Fossil and Industrial",
-            "Net Atmosphere to Ocean Flux|CO2",
+            "Heat Uptake|Ocean",
             "Net Atmosphere to Land Flux|CO2",
+            "Net Atmosphere to Ocean Flux|CO2",
         )
         common_variables = [
             c for c in self._common_variables if c not in missing_from_ciceroscm

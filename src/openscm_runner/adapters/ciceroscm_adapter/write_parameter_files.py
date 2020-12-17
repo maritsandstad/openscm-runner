@@ -61,8 +61,8 @@ class PARAMETERFILEWRITER:  # pylint: disable=too-few-public-methods
                 path=filedir_to_pamfile, scen=scen
             ),
         )
-        for k, v in self._pamset_defaults.items():
-            old = "{} {}".format(k, v)
+        for k, value in self._pamset_defaults.items():
+            old = "{} {}".format(k, value)
             new = "{} {:.4}".format(k, pamset.get(k, float(self._pamset_defaults[k])))
             filedata = filedata.replace(old, new)
 

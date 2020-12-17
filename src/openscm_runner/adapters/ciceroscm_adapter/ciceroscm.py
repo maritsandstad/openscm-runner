@@ -50,13 +50,18 @@ class CICEROSCM(_Adapter):  # pylint: disable=too-few-public-methods
         -------
         str
             The CICEROSCM version id
+
+        Raises
+        ------
+        OSError
+            The Cicero-SCM binary cannot be run on the operating system
         """
         exec_call = os.path.join(
             os.path.dirname(__file__), "utils_templates", "run_dir", "scm_vCH4fb"
         )
         try:
             check_output(exec_call)
-        except OSError:
-            raise OSError("Cicero-SCM is not available on your operating system")
+        except OSError as orig_exc:
+            raise OSError("Cicero-SCM is not available on your operating system") from orig_exc
 
         return "v2019vCH4"

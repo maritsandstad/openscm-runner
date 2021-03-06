@@ -14,6 +14,13 @@ from .ciceroscm_wrapper import CiceroSCMWrapper
 LOGGER = logging.getLogger(__name__)
 
 
+FRONT_SERIAL = 0
+"""int: Number of serial runs to do before starting parallel runs"""
+
+FRONT_PARALLEL = 0
+"""int: Number of front parallel runs to do before starting full parallel runs"""
+
+
 def _execute_run(cfgs, output_variables, scenariodata):
     cscm = CiceroSCMWrapper(scenariodata)
     try:
@@ -62,13 +69,13 @@ def run_ciceroscm_parallel(scenarios, cfgs, output_vars):
             configuration=runs,
             pool=pool,
             config_are_kwargs=True,
-            # no front runs as these defeat the purpose with Cicero-SCM (because
+            # no front runs as these defeat the purpose with CICERO-SCM (because
             # it is only parallel on scenarios, not configs)
-            front_serial=0,
-            front_parallel=0,
+            front_serial=FRONT_SERIAL,
+            front_parallel=FRONT_PARALLEL,
         )
 
-        LOGGER.info("Appending Cicero-SCM results into a single ScmRun")
+        LOGGER.info("Appending CICERO-SCM results into a single ScmRun")
         result = scmdata.run_append([r for r in result if r is not None])
 
     finally:

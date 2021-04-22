@@ -100,32 +100,11 @@ class TestCICEROSCMAdapter(_AdapterTester):
         quantiles = calculate_quantiles(res, [0, 0.05, 0.17, 0.5, 0.83, 0.95, 1])
         assert "run_id" not in quantiles.meta
 
+        assert res.filter(variable="Atmospheric Concentrations|CO2").get_unique_meta("unit", True) == "ppm"
+        assert res.filter(variable="Emissions|CO2").get_unique_meta("unit", True) == "PgC / yr"
+
         self._check_output(res, expected_output_file, update_expected_values)
 
-        # to add into the json file
-
-        # [
-        #     {
-        #         "variable": "Atmospheric Concentrations|CO2",
-        #         "unit": "ppm",
-        #         "region": "World",
-        #         "year": 2100,
-        #         "scenario": "ssp370",
-        #         "quantile": 1
-        #     },
-        #     2400.88
-        # ],
-        # [
-        #     {
-        #         "variable": "Emissions|CO2",
-        #         "unit": "Pg/C",
-        #         "region": "World",
-        #         "year": 2100,
-        #         "scenario": "ssp370",
-        #         "quantile": 1
-        #     },
-        #     2400.88
-        # ],
 
     @pytest.mark.ciceroscm
     def test_variable_naming(self, test_scenarios):

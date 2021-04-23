@@ -12,6 +12,10 @@ import re
 import numpy as np
 import pandas as pd
 
+from ._utils import _get_unique_index_values
+
+LOGGER = logging.getLogger(__name__)
+
 
 def unit_name_converter(unit):
     """
@@ -156,9 +160,13 @@ class SCENARIOFILEWRITER:
         """
         # Find the unit and the original unit
         cicero_unit = self.units[self.components.index(comp)]
-        for row_index in scenarioframe[scenarioframe.keys()[0]].keys():
-            if row_index[3] == "Emissions|{}".format(self.component_dict[comp][0]):
-                unit = row_index[4]
+        unit = _get_unique_index_values(
+            scenarioframe[
+                scenarioframe.index.get_level_values("variable")
+                == "Emissions|{}".format(self.component_dict[comp][0])
+            ],
+            "unit",
+        )
 
         # Getting units on the same form T/g
         if unit != cicero_unit:
@@ -179,8 +187,15 @@ class SCENARIOFILEWRITER:
         """
         Get rid of multiindex and interpolate scenarioframe
         """
-        scenarioframe = scenarioframe.reset_index((0, 1, 2, 4), drop=True)
-        years = scenarioframe.keys()
+        if (
+            _get_unique_index_values(scenarioframe, "region") != "World"
+        ):  # pragma: no cover
+            raise NotImplementedError()  # emergency valve
+
+        scenarioframe = scenarioframe.reset_index(
+            ("model", "region", "scenario", "unit"), drop=True
+        )
+        years = scenarioframe.columns
 
         if not isinstance(years[0], np.int64):
             yearsint = [np.int64(d.year) for d in years]
@@ -212,15 +227,22 @@ class SCENARIOFILEWRITER:
                 s=re.sub(
                     "[^a-zA-Z0-9_-]",
                     "",
-                    scenarioframe[scenarioframe.keys()[0]].keys()[0][1],
+                    _get_unique_index_values(scenarioframe, "scenario"),
                 )
             ),
         )
         logging.getLogger("pyam").setLevel(logging.ERROR)
         avail_comps = [
-            c[3].replace("Emissions|", "")
-            for c in scenarioframe[scenarioframe.keys()[0]].keys()
+            c.replace("Emissions|", "")
+            for c in _get_unique_index_values(
+                scenarioframe, "variable", assert_all_same=False
+            )
         ]
+        ciceroscm_comps = [self.component_dict[v][0] for v in self.component_dict]
+        not_used_comps = set(avail_comps) - set(ciceroscm_comps)
+        if not_used_comps:
+            LOGGER.warning("%s not used by CICERO-SCM", not_used_comps)
+
         interpol = self.transform_scenarioframe(scenarioframe)
         printout_frame = pd.DataFrame(columns=self.components)
         # Setting conversion factors for components with data from scenarioframe
@@ -232,6 +254,7 @@ class SCENARIOFILEWRITER:
                     * convfactor
                 )
             else:
+                LOGGER.warning("No %s data available, using ssp245", comp)
                 printout_frame[comp] = (
                     self.ssp245data[comp]
                     .loc[str(self.years[0]) : str(self.years[-1])]
@@ -242,4 +265,7 @@ class SCENARIOFILEWRITER:
             sfile.write(
                 self.get_top_of_file(os.path.join(self.udir, "ssp245_em_RCMIP.txt"))
             )
-        printout_frame.to_csv(fname, sep="\t", mode="a", float_format="%.8f")
+
+        printout_frame.to_csv(
+            fname, sep="\t", mode="a", float_format="%.8f", header=False
+        )
